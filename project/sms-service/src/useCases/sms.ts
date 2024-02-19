@@ -17,7 +17,8 @@ class SendSmsInteractor {
     async sendSms (phoneNumber:string) {
         try {
             const verificationCode = this.generateCode()
-            const response = await this.smsService.sendSms(phoneNumber, verificationCode)
+            const smsMessage = `Su código de verificación de Logicalgames es: ${verificationCode}`
+            const response = await this.smsService.sendSms(phoneNumber, smsMessage)
             const messageId = response.MessageId
             if (!messageId) throw new Error(`Imposible enviar el sms`)
             const newSms = await this.smsDao.saveSms(phoneNumber, verificationCode, messageId)
